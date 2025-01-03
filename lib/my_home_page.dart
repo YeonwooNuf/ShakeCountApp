@@ -13,18 +13,19 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver{
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   int _counter = 0;
   late ShakeDetector detector;
 
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
-    detector = ShakeDetector.autoStart(onPhoneShake: () {
-      setState(() {
-        _counter++;
-      });
-    },
+    detector = ShakeDetector.autoStart(
+      onPhoneShake: () {
+        setState(() {
+          _counter++;
+        });
+      },
       shakeThresholdGravity: 1.5,
     );
     super.initState();
@@ -73,23 +74,24 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver{
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    switch(state) {
-
+    switch (state) {
       case AppLifecycleState.detached:
-        // TODO: Handle this case.
-        throw UnimplementedError();
+        print("앱이 종료됩니다.");
+        break;
       case AppLifecycleState.resumed:
         detector.startListening();
-        throw UnimplementedError();
+        break;
+        // 앱이 실행중일 때
       case AppLifecycleState.inactive:
-        // TODO: Handle this case.
-        throw UnimplementedError();
+        print("앱이 비활성화 상태입니다.");
+        break;
       case AppLifecycleState.hidden:
-        // TODO: Handle this case.
-        throw UnimplementedError();
+        print("앱이 숨겨졌습니다.");
+        break;
       case AppLifecycleState.paused:
         detector.stopListening();
-        throw UnimplementedError();
+        break;
+        // 앱 사용이 중지되었을 때
     }
   }
 }
